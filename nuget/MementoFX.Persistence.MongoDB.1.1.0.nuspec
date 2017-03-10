@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>MementoFX.Persistence.MongoDB</id>
+        <version>1.1.0</version>
+        <title>MementoFX MongoDB</title>
+        <authors>Mastreeno ltd</authors>
+        <owners>Mastreeno ltd</owners>
+        <licenseUrl>http://www.mastreeno.com/license/evaluation</licenseUrl>
+        <projectUrl>http://mementofx.mastreeno.com</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>A MongoDB powered event store for MementoFX</description>
+        <copyright>Copyright 2016 Mastreeno ltd. All rights reserved</copyright>
+        <tags>mementofx memento mongodb event store cqrs ddd</tags>
+        <dependencies>
+            <dependency id="MongoDB.Driver" version="2.2.3" />
+            <dependency id="MementoFX" version="1.1.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\src\MementoFX.Persistence.MongoDB\bin\Release\Memento.Persistence.MongoDB.dll" target="lib\net451\Memento.Persistence.MongoDB.dll" />
+        <file src="..\src\MementoFX.Persistence.MongoDB\bin\Release\Memento.Persistence.MongoDB.pdb" target="lib\net451\Memento.Persistence.MongoDB.pdb" />
+        <file src="..\src\MementoFX.Persistence.MongoDB\bin\Release\Memento.Persistence.MongoDB.XML" target="lib\net451\Memento.Persistence.MongoDB.XML" />
+    </files>
+</package>
