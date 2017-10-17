@@ -1,15 +1,15 @@
 ﻿//using System;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using Xunit;
 //using SharpTestsEx;
-//using Memento.Persistence.MongoDB.Tests.Events;
-//using Memento.Messaging;
+//using MementoFX.Persistence.MongoDB.Tests.Events;
+//using MementoFX.Messaging;
 //using Moq;
 //using MongoDB.Driver;
-//using Memento.Persistence.MongoDB.Tests.Model;
+//using MementoFX.Persistence.MongoDB.Tests.Model;
 
-//namespace Memento.Persistence.MongoDB.Tests
+//namespace MementoFX.Persistence.MongoDB.Tests
 //{
-//    [TestClass]
+//    
 //    public class MongoDbRepositoryFixture
 //    {
 //        private IMongoDatabase MongoDatabase;
@@ -35,7 +35,7 @@
 
 //        }
 
-//        [TestMethod]
+//        [Fact]
 //        public void Ctor_should_throw_ArgumentNullException_on_null_eventStore_and_value_of_parameter_should_be_eventStore()
 //        {
 //            Executing.This(() => new MongoDbRepository(null))
@@ -49,7 +49,7 @@
 //                .EqualTo("eventStore");
 //        }
 
-//        [TestMethod]
+//        [Fact]
 //        public void Test_EventReplaying_evaluating_CurrentAccountBalance_using_a_stream_containing_past_events_only()
 //        {
 //            var currentAccountId = Guid.NewGuid();
@@ -71,10 +71,10 @@
 //            var sut = new MongoDbRepository(EventStore, MongoDatabase);
 //            var currentAccount = sut.GetById<CurrentAccount>(currentAccountId, DateTime.Now.AddMonths(2));
 
-//            Assert.AreEqual<decimal>(100, currentAccount.Balance);
+//            Assert.Equal<decimal>(100, currentAccount.Balance);
 //        }
 
-//        [TestMethod]
+//        [Fact]
 //        public void Test_EventReplaying_evaluating_CurrentAccountBalance_using_a_stream_containing_both_past_and_future_events()
 //        {
 //            var currentAccountId = Guid.NewGuid();
@@ -104,10 +104,10 @@
 //            var sut = new MongoDbRepository(EventStore, MongoDatabase);
 //            var currentAccount = sut.GetById<CurrentAccount>(currentAccountId, DateTime.Now.AddMonths(2));
 
-//            Assert.AreEqual<decimal>(100, currentAccount.Balance);
+//            Assert.Equal<decimal>(100, currentAccount.Balance);
 //        }
 
-//        [TestMethod]
+//        [Fact]
 //        public void Test_EventReplaying_evaluating_CurrentAccountBalance_using_a_stream_containing_past_events_only_and_a_different_timeline()
 //        {
 //            var currentAccountId = Guid.NewGuid();
@@ -138,10 +138,10 @@
 //            var sut = new MongoDbRepository(EventStore, MongoDatabase);
 //            var currentAccount = sut.GetById<CurrentAccount>(currentAccountId, DateTime.Now.AddMonths(3));
 
-//            Assert.AreEqual<decimal>(100, currentAccount.Balance);
+//            Assert.Equal<decimal>(100, currentAccount.Balance);
 //        }
 
-//        [TestMethod]
+//        [Fact]
 //        public void Test_Timeline_specific_EventReplaying_evaluating_CurrentAccountBalance_using_a_stream_containing_both_past_and_future_events()
 //        {
 //            var currentAccountId = Guid.NewGuid();
@@ -175,7 +175,7 @@
 //            var sut = new MongoDbRepository(EventStore, MongoDatabase);
 //            var currentAccount = sut.GetById<CurrentAccount>(currentAccountId, timelineId, DateTime.Now.AddMonths(3));
 
-//            Assert.AreEqual<decimal>(50, currentAccount.Balance);
+//            Assert.Equal<decimal>(50, currentAccount.Balance);
 //        }
 //    }
 //}

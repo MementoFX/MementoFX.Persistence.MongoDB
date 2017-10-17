@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Memento.Persistence.MongoDB.Tests.Events
+namespace MementoFX.Persistence.MongoDB.Tests.Events
 {
     public class AccountOpenedEvent : UnitTestFriendlyDomainEvent
     {

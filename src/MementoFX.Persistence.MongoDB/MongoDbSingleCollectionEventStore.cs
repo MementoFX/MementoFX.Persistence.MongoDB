@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Memento.Messaging;
+using MementoFX.Messaging;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 
-namespace Memento.Persistence.MongoDB
+namespace MementoFX.Persistence.MongoDB
 {
     public class MongoDbSingleCollectionEventStore : EventStore
     {
@@ -18,12 +16,11 @@ namespace Memento.Persistence.MongoDB
 
         public static IMongoDatabase MongoDatabase { get; private set; }
 
-        public MongoDbSingleCollectionEventStore(IEventDispatcher eventDispatcher)
+        public MongoDbSingleCollectionEventStore(IEventDispatcher eventDispatcher, string connectionString)
             : base(eventDispatcher)
         {
             if (MongoClient == null)
             {
-                var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["EventStore"].ConnectionString;
                 var databaseName = MongoUrl.Create(connectionString).DatabaseName;
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);

@@ -1,16 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpTestsEx;
 using MongoDB.Driver;
 using Moq;
-using Memento.Messaging;
+using MementoFX.Messaging;
+using Xunit;
 
-namespace Memento.Persistence.MongoDB.Tests
+namespace MementoFX.Persistence.MongoDB.Tests
 {
-    [TestClass]
+    
     public class MongoDbEventStoreFixture
     {
-        [TestMethod]
+        [Fact]
         public void Ctor_should_throw_ArgumentNullException_on_null_mongoDatabase_and_value_of_parameter_should_be_mongoDatabase()
         {
             var eventDispatcher = new Mock<IEventDispatcher>().Object;
@@ -25,7 +25,7 @@ namespace Memento.Persistence.MongoDB.Tests
                 .EqualTo("mongoDatabase");
         }
 
-        [TestMethod]
+        [Fact]
         public void Ctor_should_throw_ArgumentNullException_on_null_eventDispatcher_and_value_of_parameter_should_be_eventDispatcher()
         {
             var mongoDataBase = new Mock<IMongoDatabase>().Object;
@@ -40,14 +40,14 @@ namespace Memento.Persistence.MongoDB.Tests
                 .EqualTo("eventDispatcher");
         }
 
-        [TestMethod]
+        [Fact]
         public void Ctor_should_set_MongoDatabase_field()
         {
             var bus = new Mock<IEventDispatcher>().Object;
             var mock = new Mock<IMongoDatabase>().Object;
             var sut = new MongoDbEventStore(mock, bus);
 
-            Assert.AreEqual(mock, MongoDbEventStore.MongoDatabase);
+            Assert.Equal(mock, MongoDbEventStore.MongoDatabase);
         }
     }
 }

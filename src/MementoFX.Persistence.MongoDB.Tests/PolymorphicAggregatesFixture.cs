@@ -1,6 +1,6 @@
-﻿//using Memento.Messaging;
-//using Memento.Persistence.MongoDB.Tests.Model;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿//using MementoFX.Messaging;
+//using MementoFX.Persistence.MongoDB.Tests.Model;
+//using Xunit;
 //using MongoDB.Driver;
 //using Moq;
 //using System;
@@ -9,12 +9,12 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace Memento.Persistence.MongoDB.Tests
+//namespace MementoFX.Persistence.MongoDB.Tests
 //{
-//    [TestClass]
+//    
 //    public class PolymorphicAggregatesFixture
 //    {
-//        [TestMethod]
+//        [Fact]
 //        public void Test_Polymorphic_aggregate_fetch()
 //        {
 //            var evtConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["EventStore"].ConnectionString;
@@ -55,7 +55,7 @@
 
 //            Assert.IsNotNull(fetchedInvoice);
 //            Assert.IsInstanceOfType(fetchedInvoice, typeof(IncomingInvoice));
-//            Assert.AreEqual(invoice1.Id, fetchedInvoice.Id);
+//            Assert.Equal(invoice1.Id, fetchedInvoice.Id);
 //        }
 //    }
 //}

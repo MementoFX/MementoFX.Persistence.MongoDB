@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memento.Persistence.MongoDB", "src\MementoFX.Persistence.MongoDB\Memento.Persistence.MongoDB.csproj", "{E1EBAD46-9B08-434E-8CA1-1B7E811E86AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MementoFX.Persistence.MongoDB", "src\MementoFX.Persistence.MongoDB\MementoFX.Persistence.MongoDB.csproj", "{E1EBAD46-9B08-434E-8CA1-1B7E811E86AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memento.Persistence.MongoDB.Tests", "src\MementoFX.Persistence.MongoDB.Tests\Memento.Persistence.MongoDB.Tests.csproj", "{720CE476-C8A2-4B13-86B2-5A9BF0145D06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MementoFX.Persistence.MongoDB.Tests", "src\MementoFX.Persistence.MongoDB.Tests\MementoFX.Persistence.MongoDB.Tests.csproj", "{720CE476-C8A2-4B13-86B2-5A9BF0145D06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {505586D6-3DC1-41DA-8369-5D0D773A232C}
 	EndGlobalSection
 EndGlobal

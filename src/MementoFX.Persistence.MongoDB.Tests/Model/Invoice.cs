@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Memento.Domain;
+using MementoFX.Domain;
 
-namespace Memento.Persistence.MongoDB.Tests.Model
+namespace MementoFX.Persistence.MongoDB.Tests.Model
 {
     public class Invoice : Aggregate
     {

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Memento.Domain;
-using Memento.Persistence.MongoDB.Tests.Events;
+﻿using MementoFX.Domain;
+using MementoFX.Persistence.MongoDB.Tests.Events;
 
-namespace Memento.Persistence.MongoDB.Tests.Model
+namespace MementoFX.Persistence.MongoDB.Tests.Model
 {
     public class CurrentAccount : Aggregate
     {

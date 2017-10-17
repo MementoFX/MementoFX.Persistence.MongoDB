@@ -4,11 +4,10 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using Memento.Domain;
-using Memento.Messaging;
+using MementoFX.Messaging;
 using System.Reflection;
 
-namespace Memento.Persistence.MongoDB
+namespace MementoFX.Persistence.MongoDB
 {
     /// <summary>
     /// Provides an implementation of a Memento event store
@@ -30,12 +29,11 @@ namespace Memento.Persistence.MongoDB
         /// Creates a new instance of the event store
         /// </summary>
         /// <param name="eventDispatcher">The event dispatcher to be used by the instance</param>
-        public MongoDbEventStore(IEventDispatcher eventDispatcher)
+        public MongoDbEventStore(IEventDispatcher eventDispatcher, string connectionString)
             : base(eventDispatcher)
         {
             if (MongoClient == null)
             {
-                var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["EventStore"].ConnectionString;
                 var databaseName = MongoUrl.Create(connectionString).DatabaseName;
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);
