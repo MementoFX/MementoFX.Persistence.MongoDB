@@ -6,6 +6,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MementoFX.Messaging;
 using System.Reflection;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace MementoFX.Persistence.MongoDB
 {
@@ -37,6 +38,8 @@ namespace MementoFX.Persistence.MongoDB
                 var databaseName = MongoUrl.Create(connectionString).DatabaseName;
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);
+
+                InitialiseBsonSerializer();
             }
         }
 
@@ -53,6 +56,8 @@ namespace MementoFX.Persistence.MongoDB
 
             MongoDatabase = mongoDatabase;
             MongoClient = mongoDatabase.Client;
+
+            InitialiseBsonSerializer();
         }
 
         /// <summary>
@@ -149,6 +154,11 @@ namespace MementoFX.Persistence.MongoDB
             }
 
             return events.OrderBy(e => e.TimeStamp);
+        }
+
+        private void InitialiseBsonSerializer()
+        {
+            BsonSerializer.RegisterSerializer<DateTime>(new DateTimeSerializer(DateTimeKind.Utc));
         }
     }
 }

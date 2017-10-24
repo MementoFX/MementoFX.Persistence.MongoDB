@@ -5,6 +5,7 @@ using MementoFX.Messaging;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace MementoFX.Persistence.MongoDB
 {
@@ -25,6 +26,8 @@ namespace MementoFX.Persistence.MongoDB
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);
                 MongoCollection = MongoDatabase.GetCollection<BsonDocument>("DomainEvents");
+
+                InitialiseBsonSerializer();
             }
         }
 
@@ -38,6 +41,8 @@ namespace MementoFX.Persistence.MongoDB
 
             MongoClient = mongoDatabase.Client;
             MongoCollection = MongoDatabase.GetCollection<BsonDocument>("DomainEvents");
+
+            InitialiseBsonSerializer();
         }
 
         public MongoDbSingleCollectionEventStore(IEventDispatcher eventDispatcher, IMongoDatabase mongoDatabase, string collectionName)
@@ -50,6 +55,8 @@ namespace MementoFX.Persistence.MongoDB
 
             MongoClient = mongoDatabase.Client;
             MongoCollection = MongoDatabase.GetCollection<BsonDocument>(collectionName ?? "DomainEvents");
+
+            InitialiseBsonSerializer();
         }
 
         public override IEnumerable<T> Find<T>(Func<T, bool> filter)
@@ -143,6 +150,11 @@ namespace MementoFX.Persistence.MongoDB
             bsonDocument["DomainEvent"] = @event.ToBsonDocument();
 
             MongoCollection.InsertOne(bsonDocument);
+        }
+
+        private void InitialiseBsonSerializer()
+        {
+            BsonSerializer.RegisterSerializer<DateTime>(new DateTimeSerializer(DateTimeKind.Utc));
         }
     }
 }
