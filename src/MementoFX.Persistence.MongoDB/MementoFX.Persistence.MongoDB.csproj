@@ -2,7 +2,7 @@
   
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0-pre1</Version>
+    <Version>2.0.0-pre2</Version>
     <Authors>andysal, mastreeno</Authors>
     <Company>Mastreeno ltd</Company>
     <Description>A MongoDB powered event store for MementoFX</Description>
@@ -31,7 +31,7 @@
     <PackageReference Include="MongoDB.Bson" Version="2.4.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.4.4" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.4.4" />
-    <PackageReference Include="System.Linq.Queryable" Version="4.0.1" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
   </ItemGroup>
 </Project>
