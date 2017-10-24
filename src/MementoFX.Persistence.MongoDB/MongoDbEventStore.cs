@@ -35,11 +35,11 @@ namespace MementoFX.Persistence.MongoDB
         {
             if (MongoClient == null)
             {
+                InitialiseBsonSerializer();
+
                 var databaseName = MongoUrl.Create(connectionString).DatabaseName;
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);
-
-                InitialiseBsonSerializer();
             }
         }
 
@@ -54,10 +54,10 @@ namespace MementoFX.Persistence.MongoDB
             if (mongoDatabase == null)
                 throw new ArgumentNullException("mongoDatabase");
 
+            InitialiseBsonSerializer();
+
             MongoDatabase = mongoDatabase;
             MongoClient = mongoDatabase.Client;
-
-            InitialiseBsonSerializer();
         }
 
         /// <summary>
@@ -158,7 +158,16 @@ namespace MementoFX.Persistence.MongoDB
 
         private void InitialiseBsonSerializer()
         {
-            BsonSerializer.RegisterSerializer<DateTime>(new DateTimeSerializer(DateTimeKind.Utc));
+            var existingSerializer = BsonSerializer.LookupSerializer<DateTime>() as DateTimeSerializer;
+
+            if (existingSerializer == null)
+            {
+                BsonSerializer.RegisterSerializer(new DateTimeSerializer(DateTimeKind.Utc));
+            }
+            else if (existingSerializer.Kind != DateTimeKind.Utc)
+            {
+                existingSerializer.WithKind(DateTimeKind.Utc);
+            }
         }
     }
 }

@@ -22,12 +22,12 @@ namespace MementoFX.Persistence.MongoDB
         {
             if (MongoClient == null)
             {
+                InitialiseBsonSerializer();
+
                 var databaseName = MongoUrl.Create(connectionString).DatabaseName;
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);
                 MongoCollection = MongoDatabase.GetCollection<BsonDocument>("DomainEvents");
-
-                InitialiseBsonSerializer();
             }
         }
 
@@ -37,12 +37,12 @@ namespace MementoFX.Persistence.MongoDB
             if (mongoDatabase == null)
                 throw new ArgumentNullException("mongoDatabase");
 
+            InitialiseBsonSerializer();
+
             MongoDatabase = mongoDatabase;
 
             MongoClient = mongoDatabase.Client;
             MongoCollection = MongoDatabase.GetCollection<BsonDocument>("DomainEvents");
-
-            InitialiseBsonSerializer();
         }
 
         public MongoDbSingleCollectionEventStore(IEventDispatcher eventDispatcher, IMongoDatabase mongoDatabase, string collectionName)
@@ -51,12 +51,12 @@ namespace MementoFX.Persistence.MongoDB
             if (mongoDatabase == null)
                 throw new ArgumentNullException("mongoDatabase");
 
+            InitialiseBsonSerializer();
+
             MongoDatabase = mongoDatabase;
 
             MongoClient = mongoDatabase.Client;
             MongoCollection = MongoDatabase.GetCollection<BsonDocument>(collectionName ?? "DomainEvents");
-
-            InitialiseBsonSerializer();
         }
 
         public override IEnumerable<T> Find<T>(Func<T, bool> filter)
@@ -154,7 +154,16 @@ namespace MementoFX.Persistence.MongoDB
 
         private void InitialiseBsonSerializer()
         {
-            BsonSerializer.RegisterSerializer<DateTime>(new DateTimeSerializer(DateTimeKind.Utc));
+            var existingSerializer = BsonSerializer.LookupSerializer<DateTime>() as DateTimeSerializer;
+
+            if (existingSerializer == null)
+            {
+                BsonSerializer.RegisterSerializer(new DateTimeSerializer(DateTimeKind.Utc));
+            }
+            else if (existingSerializer.Kind != DateTimeKind.Utc)
+            {
+                existingSerializer.WithKind(DateTimeKind.Utc);
+            }
         }
     }
 }
