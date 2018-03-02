@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpTestsEx;
 using MongoDB.Driver;
@@ -48,6 +50,28 @@ namespace Memento.Persistence.MongoDB.Tests
             var sut = new MongoDbEventStore(mock, bus);
 
             Assert.AreEqual(mock, MongoDbEventStore.MongoDatabase);
+        }
+
+        public class DomainEventForTest : DomainEvent
+        {
+            
+        }
+
+        [TestMethod]
+        public void _Save_should_choose_appopriate_InsertOne_from_IMongoCollection()
+        {
+            var bus = new Mock<IEventDispatcher>().Object;
+            var dbMock = new Mock<IMongoDatabase>();
+            var collectionMock = new Mock<IMongoCollection<DomainEventForTest>>();
+            dbMock.Setup(db => db.GetCollection<DomainEventForTest>(typeof(DomainEventForTest).Name, null))
+                .Returns(collectionMock.Object);
+            var sut = new MongoDbEventStore(dbMock.Object, bus);
+            var method = sut.GetType().GetMethod("_Save", BindingFlags.NonPublic | BindingFlags.Instance);
+            var domainEventForTest = new DomainEventForTest();
+
+            method.Invoke(sut, new object[] {domainEventForTest});
+
+            collectionMock.Verify(c => c.InsertOne(domainEventForTest, null, default(CancellationToken)), Times.Once);
         }
     }
 }

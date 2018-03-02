@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using Memento.Domain;
 using Memento.Messaging;
 using System.Reflection;
+using System.Threading;
 
 namespace Memento.Persistence.MongoDB
 {
@@ -77,14 +78,24 @@ namespace Memento.Persistence.MongoDB
         /// <param name="event">The event to be saved</param>
         protected override void _Save(DomainEvent @event)
         {
-            var collectionName = @event.GetType().Name;
+            var eventType = @event.GetType();
+            var collectionName = eventType.Name;
             MethodInfo getCollectionMethod = typeof(IMongoDatabase).GetMethod("GetCollection");
-            MethodInfo getCollectionGeneric = getCollectionMethod.MakeGenericMethod(@event.GetType());
+            MethodInfo getCollectionGeneric = getCollectionMethod.MakeGenericMethod(eventType);
 
             var mongoCollection = getCollectionGeneric.Invoke(MongoDatabase, new object[] { collectionName, null });
 
             var mongoCollectionType = mongoCollection.GetType();
-            var mi = mongoCollectionType.GetMethod("InsertOne");
+
+            var mi = mongoCollectionType.GetMethods().Single(m =>
+            {
+                if (m.Name != "InsertOne") return false;
+                var parameters = m.GetParameters();
+                return parameters.Length == 3 &&
+                       parameters[0].ParameterType == eventType &&
+                       parameters[1].ParameterType == typeof(InsertOneOptions) &&
+                       parameters[2].ParameterType == typeof(CancellationToken);
+            });
 
             mi.Invoke(mongoCollection, new object[] { @event, null, null });
         }
