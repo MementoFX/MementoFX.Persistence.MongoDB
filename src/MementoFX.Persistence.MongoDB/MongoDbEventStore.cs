@@ -79,25 +79,20 @@ namespace Memento.Persistence.MongoDB
         protected override void _Save(DomainEvent @event)
         {
             var eventType = @event.GetType();
-            var collectionName = eventType.Name;
-            MethodInfo getCollectionMethod = typeof(IMongoDatabase).GetMethod("GetCollection");
-            MethodInfo getCollectionGeneric = getCollectionMethod.MakeGenericMethod(eventType);
+            MethodInfo saveMethod = typeof(MongoDbEventStore).GetMethod("_SaveInternal", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo saveMethodGeneric = saveMethod.MakeGenericMethod(eventType);
 
-            var mongoCollection = getCollectionGeneric.Invoke(MongoDatabase, new object[] { collectionName, null });
+            saveMethodGeneric.Invoke(this, new object[] { @event });
+        }
 
-            var mongoCollectionType = mongoCollection.GetType();
-
-            var mi = mongoCollectionType.GetMethods().Single(m =>
-            {
-                if (m.Name != "InsertOne") return false;
-                var parameters = m.GetParameters();
-                return parameters.Length == 3 &&
-                       parameters[0].ParameterType == eventType &&
-                       parameters[1].ParameterType == typeof(InsertOneOptions) &&
-                       parameters[2].ParameterType == typeof(CancellationToken);
-            });
-
-            mi.Invoke(mongoCollection, new object[] { @event, null, null });
+        /// <summary>
+        /// Saves an event into the store. Actually.
+        /// </summary>
+        /// <typeparam name="T">Type of event</typeparam>
+        /// <param name="event">The event to be saved</param>
+        private void _SaveInternal<T>(T @event) where T : DomainEvent
+        {
+            MongoDatabase.GetCollection<T>(@event.GetType().Name).InsertOne(@event);
         }
 
         /// <summary>
