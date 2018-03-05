@@ -1,16 +1,15 @@
+using MementoFX.Messaging;
+using MongoDB.Driver;
+using Moq;
+using SharpTestsEx;
 using System;
 using System.Reflection;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpTestsEx;
-using MongoDB.Driver;
-using Moq;
-using Memento.Messaging;
 using Xunit;
 
-namespace Memento.Persistence.MongoDB.Tests
+namespace MementoFX.Persistence.MongoDB.Tests
 {
-    
+
     public class MongoDbEventStoreFixture
     {
         [Fact]
@@ -58,7 +57,7 @@ namespace Memento.Persistence.MongoDB.Tests
             
         }
 
-        [TestMethod]
+        [Fact]
         public void _Save_should_choose_appopriate_InsertOne_from_IMongoCollection()
         {
             var bus = new Mock<IEventDispatcher>().Object;

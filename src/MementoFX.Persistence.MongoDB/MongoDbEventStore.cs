@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MementoFX.Messaging;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-using MongoDB.Driver;
-using Memento.Messaging;
-using System.Reflection;
-using System.Threading;
 using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
-namespace Memento.Persistence.MongoDB
+namespace MementoFX.Persistence.MongoDB
 {
     /// <summary>
     /// Provides an implementation of a Memento event store

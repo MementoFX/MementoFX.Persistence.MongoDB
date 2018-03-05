@@ -1,13 +1,13 @@
-﻿using System;
-using Xunit;
-using MementoFX.Messaging;
-using SharpTestsEx;
-using Moq;
+﻿using MementoFX.Messaging;
 using MongoDB.Driver;
+using Moq;
+using SharpTestsEx;
+using System;
+using Xunit;
 
 namespace MementoFX.Persistence.MongoDB.Tests
 {
-    
+
     public class MongoDbSingleCollectionEventStoreFixture
     {
         [Fact]
