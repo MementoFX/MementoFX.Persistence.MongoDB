@@ -4,11 +4,12 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MementoFX.Messaging;
+using Memento.Messaging;
 using System.Reflection;
+using System.Threading;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace MementoFX.Persistence.MongoDB
+namespace Memento.Persistence.MongoDB
 {
     /// <summary>
     /// Provides an implementation of a Memento event store
@@ -80,16 +81,21 @@ namespace MementoFX.Persistence.MongoDB
         /// <param name="event">The event to be saved</param>
         protected override void _Save(DomainEvent @event)
         {
-            var collectionName = @event.GetType().Name;
-            MethodInfo getCollectionMethod = typeof(IMongoDatabase).GetMethod("GetCollection");
-            MethodInfo getCollectionGeneric = getCollectionMethod.MakeGenericMethod(@event.GetType());
+            var eventType = @event.GetType();
+            MethodInfo saveMethod = typeof(MongoDbEventStore).GetMethod("_SaveInternal", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo saveMethodGeneric = saveMethod.MakeGenericMethod(eventType);
 
-            var mongoCollection = getCollectionGeneric.Invoke(MongoDatabase, new object[] { collectionName, null });
+            saveMethodGeneric.Invoke(this, new object[] { @event });
+        }
 
-            var mongoCollectionType = mongoCollection.GetType();
-            var mi = mongoCollectionType.GetMethod("InsertOne");
-
-            mi.Invoke(mongoCollection, new object[] { @event, null, null });
+        /// <summary>
+        /// Saves an event into the store. Actually.
+        /// </summary>
+        /// <typeparam name="T">Type of event</typeparam>
+        /// <param name="event">The event to be saved</param>
+        private void _SaveInternal<T>(T @event) where T : DomainEvent
+        {
+            MongoDatabase.GetCollection<T>(@event.GetType().Name).InsertOne(@event);
         }
 
         /// <summary>
