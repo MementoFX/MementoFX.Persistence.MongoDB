@@ -4,10 +4,10 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using Memento.Domain;
 using Memento.Messaging;
 using System.Reflection;
 using System.Threading;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace Memento.Persistence.MongoDB
 {
@@ -31,12 +31,13 @@ namespace Memento.Persistence.MongoDB
         /// Creates a new instance of the event store
         /// </summary>
         /// <param name="eventDispatcher">The event dispatcher to be used by the instance</param>
-        public MongoDbEventStore(IEventDispatcher eventDispatcher)
+        public MongoDbEventStore(IEventDispatcher eventDispatcher, string connectionString)
             : base(eventDispatcher)
         {
             if (MongoClient == null)
             {
-                var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["EventStore"].ConnectionString;
+                InitialiseBsonSerializer();
+
                 var databaseName = MongoUrl.Create(connectionString).DatabaseName;
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);
@@ -53,6 +54,8 @@ namespace Memento.Persistence.MongoDB
         {
             if (mongoDatabase == null)
                 throw new ArgumentNullException("mongoDatabase");
+
+            InitialiseBsonSerializer();
 
             MongoDatabase = mongoDatabase;
             MongoClient = mongoDatabase.Client;
@@ -157,6 +160,20 @@ namespace Memento.Persistence.MongoDB
             }
 
             return events.OrderBy(e => e.TimeStamp);
+        }
+
+        private void InitialiseBsonSerializer()
+        {
+            var existingSerializer = BsonSerializer.LookupSerializer<DateTime>() as DateTimeSerializer;
+
+            if (existingSerializer == null)
+            {
+                BsonSerializer.RegisterSerializer(new DateTimeSerializer(DateTimeKind.Utc));
+            }
+            else if (existingSerializer.Kind != DateTimeKind.Utc)
+            {
+                existingSerializer.WithKind(DateTimeKind.Utc);
+            }
         }
     }
 }

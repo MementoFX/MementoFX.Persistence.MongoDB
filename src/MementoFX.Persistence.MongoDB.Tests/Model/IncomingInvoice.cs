@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Memento.Persistence.MongoDB.Tests.Model
+namespace MementoFX.Persistence.MongoDB.Tests.Model
 {
     public class IncomingInvoice : Invoice
     {

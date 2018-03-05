@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Memento.Messaging;
+using MementoFX.Messaging;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
-namespace Memento.Persistence.MongoDB
+namespace MementoFX.Persistence.MongoDB
 {
     public class MongoDbSingleCollectionEventStore : EventStore
     {
@@ -18,12 +17,13 @@ namespace Memento.Persistence.MongoDB
 
         public static IMongoDatabase MongoDatabase { get; private set; }
 
-        public MongoDbSingleCollectionEventStore(IEventDispatcher eventDispatcher)
+        public MongoDbSingleCollectionEventStore(IEventDispatcher eventDispatcher, string connectionString)
             : base(eventDispatcher)
         {
             if (MongoClient == null)
             {
-                var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["EventStore"].ConnectionString;
+                InitialiseBsonSerializer();
+
                 var databaseName = MongoUrl.Create(connectionString).DatabaseName;
                 MongoClient = new MongoClient(connectionString);
                 MongoDatabase = MongoClient.GetDatabase(databaseName);
@@ -37,6 +37,8 @@ namespace Memento.Persistence.MongoDB
             if (mongoDatabase == null)
                 throw new ArgumentNullException("mongoDatabase");
 
+            InitialiseBsonSerializer();
+
             MongoDatabase = mongoDatabase;
 
             MongoClient = mongoDatabase.Client;
@@ -48,6 +50,8 @@ namespace Memento.Persistence.MongoDB
         {
             if (mongoDatabase == null)
                 throw new ArgumentNullException("mongoDatabase");
+
+            InitialiseBsonSerializer();
 
             MongoDatabase = mongoDatabase;
 
@@ -146,6 +150,20 @@ namespace Memento.Persistence.MongoDB
             bsonDocument["DomainEvent"] = @event.ToBsonDocument();
 
             MongoCollection.InsertOne(bsonDocument);
+        }
+
+        private void InitialiseBsonSerializer()
+        {
+            var existingSerializer = BsonSerializer.LookupSerializer<DateTime>() as DateTimeSerializer;
+
+            if (existingSerializer == null)
+            {
+                BsonSerializer.RegisterSerializer(new DateTimeSerializer(DateTimeKind.Utc));
+            }
+            else if (existingSerializer.Kind != DateTimeKind.Utc)
+            {
+                existingSerializer.WithKind(DateTimeKind.Utc);
+            }
         }
     }
 }
