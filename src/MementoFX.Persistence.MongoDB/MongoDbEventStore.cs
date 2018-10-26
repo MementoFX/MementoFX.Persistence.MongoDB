@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace MementoFX.Persistence.MongoDB
@@ -66,7 +67,7 @@ namespace MementoFX.Persistence.MongoDB
         /// <typeparam name="T">The type of the event</typeparam>
         /// <param name="filter">The requirement</param>
         /// <returns>The events which satisfy the given requirement</returns>
-        public override IEnumerable<T> Find<T>(Func<T, bool> filter)
+        public override IEnumerable<T> Find<T>(Expression<Func<T, bool>> filter)
         {
             var collectionName = typeof(T).Name;
             var events = MongoDatabase.GetCollection<T>(collectionName).AsQueryable().Where(filter);
