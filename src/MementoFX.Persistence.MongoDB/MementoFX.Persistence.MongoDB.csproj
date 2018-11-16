@@ -2,15 +2,15 @@
   
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0-pre3</Version>
-    <Authors>andysal, mastreeno</Authors>
-    <Company>Mastreeno ltd</Company>
+    <Version>2.0.0-pre4</Version>
+    <Authors>Andrea Saltarello, Managed Designs</Authors>
+    <Company>Managed Designs</Company>
     <Description>A MongoDB powered event store for MementoFX</Description>
-    <Copyright>© 2017 Andrea Saltarello, Mastreeno ltd</Copyright>    
+    <Copyright>© 2013-2018 Andrea Saltarello, Managed Designs</Copyright>    
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://opensource.org/licenses/RPL-1.5</PackageLicenseUrl>
-    <PackageProjectUrl>https://mementofx.mastreeno.com</PackageProjectUrl>
+    <PackageProjectUrl>https://opensource.manageddesigns.it/mementofx</PackageProjectUrl>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
     <RepositoryUrl>https://github.com/MementoFX/MementoFX.Persistence.MongoDB/</RepositoryUrl>
@@ -27,10 +27,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="MementoFX" Version="2.0.0-pre5" />
-    <PackageReference Include="MongoDB.Bson" Version="2.7.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
-    <PackageReference Include="MongoDB.Driver.Core" Version="2.7.0" />
+    <PackageReference Include="MementoFX" Version="2.0.0-pre6" />
+    <PackageReference Include="MongoDB.Bson" Version="2.7.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.7.2" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
   </ItemGroup>
