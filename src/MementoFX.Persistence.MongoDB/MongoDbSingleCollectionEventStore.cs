@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace MementoFX.Persistence.MongoDB
 {
@@ -59,7 +60,7 @@ namespace MementoFX.Persistence.MongoDB
             MongoCollection = MongoDatabase.GetCollection<BsonDocument>(collectionName ?? "DomainEvents");
         }
 
-        public override IEnumerable<T> Find<T>(Func<T, bool> filter)
+        public override IEnumerable<T> Find<T>(Expression<Func<T, bool>> filter)
         {
             var clrType = typeof(T);
             var events = new List<T>();
@@ -83,7 +84,7 @@ namespace MementoFX.Persistence.MongoDB
                 }
             }
 
-            return events.Where(filter);
+            return events.Where(filter.Compile());
         }
 
         public override IEnumerable<DomainEvent> RetrieveEvents(Guid aggregateId, DateTime pointInTime, IEnumerable<EventMapping> eventDescriptors, Guid? timelineId)
