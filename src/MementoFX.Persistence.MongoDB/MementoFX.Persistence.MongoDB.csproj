@@ -2,20 +2,21 @@
   
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0</Version>
+    <Version>2.0.1-pre1</Version>
     <Authors>Andrea Saltarello, Managed Designs</Authors>
     <Company>Managed Designs</Company>
     <Description>A MongoDB powered event store for MementoFX</Description>
-    <Copyright>© 2013-2018 Andrea Saltarello, Managed Designs</Copyright>    
+    <Copyright>© 2013-2020 Andrea Saltarello, Managed Designs</Copyright>    
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl>https://opensource.org/licenses/RPL-1.5</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://opensource.manageddesigns.it/mementofx</PackageProjectUrl>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
     <RepositoryUrl>https://github.com/MementoFX/MementoFX.Persistence.MongoDB/</RepositoryUrl>
     <Product>MementoFX</Product>
     <PackageTags>mementofx, memento, mongodb, event store, cqrs, ddd</PackageTags>
+    <PackageLicenseExpression>RPL-1.5</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,10 +29,10 @@
   
   <ItemGroup>
     <PackageReference Include="MementoFX" Version="2.0.0" />
-    <PackageReference Include="MongoDB.Bson" Version="2.7.2" />
-    <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
-    <PackageReference Include="MongoDB.Driver.Core" Version="2.7.2" />
+    <PackageReference Include="MongoDB.Bson" Version="2.10.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.10.3" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 </Project>
